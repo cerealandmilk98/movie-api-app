@@ -1,23 +1,8 @@
-import { useEffect, useState } from "react";
+import { useFavorites } from "../context/FavoritesContext";
 import MovieCard from "../components/MovieCard";
 
 function Favorites() {
-  const [favorites, setFavorites] = useState([]);
-
-  useEffect(() => {
-    const loadFavorites = () => {
-      const favs = JSON.parse(localStorage.getItem("favorites")) || [];
-      setFavorites(favs);
-    };
-
-    loadFavorites();
-
-    window.addEventListener("favoritesUpdated", loadFavorites);
-
-    return () => {
-      window.removeEventListener("favoritesUpdated", loadFavorites);
-    };
-  }, []);
+  const { favorites } = useFavorites();
 
   return (
     <div>

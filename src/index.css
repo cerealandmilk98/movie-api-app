@@ -1,3 +1,28 @@
+/* =========================
+   DESIGN TOKENS
+========================= */
+:root {
+  --bg: #0b0b0b;
+  --panel: #141414;
+  --panel-2: #1a1a1a;
+  --border: #1f1f1f;
+
+  --text: #f5f5f5;
+  --muted: #aaa;
+
+  --accent: #e50914;
+  --accent-hover: #ff1f1f;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* =========================
+   GLOBAL RESET
+========================= */
 * {
   margin: 0;
   padding: 0;
@@ -7,74 +32,24 @@
 body {
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #0b0b0b;
-  color: #f5f5f5;
+  background: var(--bg);
+  color: var(--text);
   min-height: 100vh;
 }
 
+/* =========================
+   TYPOGRAPHY
+========================= */
 h1 {
   font-size: 2.2rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 25px;
+  letter-spacing: 0.5px;
 }
 
 h2 {
   font-size: 1.6rem;
   margin-bottom: 20px;
-}
-
-nav {
-  margin-bottom: 30px;
-}
-
-nav a {
-  color: #aaa;
-  text-decoration: none;
-  margin: 0 12px;
-  font-weight: 500;
-  transition: 0.2s ease;
-}
-
-nav a:hover {
-  color: #fff;
-}
-
-form {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-}
-
-input {
-  padding: 12px 14px;
-  width: 280px;
-  border: 1px solid #222;
-  border-radius: 8px;
-  outline: none;
-  background: #141414;
-  color: #fff;
-  font-size: 0.95rem;
-  transition: 0.2s ease;
-}
-
-input:focus {
-  border-color: #e50914;
-}
-
-button {
-  padding: 12px 14px;
-  margin-left: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #e50914;
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-button:hover {
-  background: #ff1f1f;
 }
 
 p {
@@ -83,30 +58,138 @@ p {
   color: #bbb;
 }
 
+/* =========================
+   CONTAINER
+========================= */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* =========================
+   NAVIGATION (APP HEADER)
+========================= */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 30px;
+  padding: 14px 16px;
+
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+}
+
+nav a:hover {
+  background: rgba(229, 9, 20, 0.12);
+  color: var(--text);
+}
+
+nav a.active {
+  background: rgba(229, 9, 20, 0.2);
+  color: var(--text);
+}
+
+/* =========================
+   SEARCH
+========================= */
+form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  gap: 10px;
+}
+
+input {
+  padding: 12px 14px;
+  width: 280px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  outline: none;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+}
+
+/* =========================
+   BUTTONS (GLOBAL)
+========================= */
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: var(--radius-md);
+
+  background: var(--accent);
+  color: white;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* hover + interaction */
+button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* =========================
+   GRID LAYOUT
+========================= */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
   gap: 22px;
-  padding: 10px 20px 30px;
+  padding: 10px 20px 40px;
 }
 
+/* =========================
+   MOVIE CARD
+========================= */
 .card {
-  background: #141414;
-  border-radius: 12px;
+  background: var(--panel);
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  border: 1px solid var(--border);
   transition: 0.25s ease;
-  border: 1px solid #1f1f1f;
+  cursor: pointer;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  border-color: #2a2a2a;
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: var(--shadow);
+  border-color: rgba(229, 9, 20, 0.5);
 }
 
 .card img {
   width: 100%;
-  height: 285px;
+  height: 280px;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.08);
 }
 
 .card-content {
@@ -115,21 +198,196 @@ p {
 
 .card h3 {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 4px;
 }
 
+.card:hover h3 {
+  color: var(--accent);
+}
+
 .card p {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #888;
 }
 
+/* card button override */
 .card button {
   width: 100%;
   margin-top: 10px;
-  background: #1f1f1f;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
 }
 
 .card button:hover {
-  background: #e50914;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* =========================
+   EMPTY STATES
+========================= */
+.empty {
+  text-align: center;
+  color: #777;
+  margin-top: 30px;
+}
+
+/* =========================
+   SKELETON LOADING
+========================= */
+.skeleton-card {
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.skeleton-img,
+.skeleton-line {
+  background: linear-gradient(90deg, #1f1f1f 25%, #2a2a2a 50%, #1f1f1f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+.skeleton-img {
+  width: 100%;
+  height: 280px;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-line {
+  height: 10px;
+  margin-top: 10px;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* =========================
+   MOVIE DETAILS PAGE
+========================= */
+.movie-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px 12px;
+  margin-bottom: 20px;
+
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.back-btn:hover {
+  background: rgba(229, 9, 20, 0.15);
+  color: white;
+  transform: translateX(-3px);
+}
+
+/* HERO LAYOUT */
+.hero {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.poster {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.info h1 {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+}
+
+.meta {
+  display: flex;
+  gap: 10px;
+  color: var(--muted);
+  margin-bottom: 15px;
+}
+
+.rating {
+  color: #f5c518;
+  font-weight: bold;
+}
+
+.genres {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.chip {
+  background: var(--panel-2);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border);
+  color: #ddd;
+}
+
+.plot {
+  line-height: 1.7;
+  margin-bottom: 20px;
+  color: #ddd;
+}
+
+.details {
+  display: grid;
+  gap: 8px;
+  color: #bbb;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  text-decoration: none;
+  color: #f5f5f5;
+
+  font-size: 1.6rem;
+  font-weight: 700;
+
+  margin-bottom: 25px;
+
+  transition: 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.85;
+  transform: scale(1.02);
+}
+
+.logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }

@@ -1,45 +1,34 @@
-import { useState, useEffect } from "react";
+import { useFavorites } from "../context/FavoritesContext";
+import { Link } from "react-router-dom";
 
 function MovieCard({ movie }) {
-  const [isFav, setIsFav] = useState(false);
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 
-  useEffect(() => {
-    const favs = JSON.parse(localStorage.getItem("favorites")) || [];
-    setIsFav(favs.some((m) => m.imdbID === movie.imdbID));
-  }, [movie.imdbID]);
-
-  const toggleFavorite = () => {
-    let favs = JSON.parse(localStorage.getItem("favorites")) || [];
-
-    if (isFav) {
-      favs = favs.filter((m) => m.imdbID !== movie.imdbID);
-    } else {
-      favs.push(movie);
-    }
-
-    localStorage.setItem("favorites", JSON.stringify(favs));
-    setIsFav(!isFav);
-
-    window.dispatchEvent(new Event("favoritesUpdated"));
-  };
+  const fav = isFavorite(movie.imdbID);
 
   return (
     <div className="card">
-      <img
-        src={
-          movie.Poster !== "N/A"
-            ? movie.Poster
-            : "https://via.placeholder.com/300x450"
-        }
-        alt={movie.Title}
-      />
+      <Link to={`/movie/${movie.imdbID}`}>
+        <img
+          src={
+            movie.Poster !== "N/A"
+              ? movie.Poster
+              : "https://via.placeholder.com/300x450"
+          }
+          alt={movie.Title}
+        />
+      </Link>
 
       <div className="card-content">
         <h3>{movie.Title}</h3>
         <p>{movie.Year}</p>
 
-        <button onClick={toggleFavorite}>
-          {isFav ? "Remove ❤️" : "Add ❤️"}
+        <button
+          onClick={() =>
+            fav ? removeFavorite(movie.imdbID) : addFavorite(movie)
+          }
+        >
+          {fav ? "Remove ❤️" : "Add ❤️"}
         </button>
       </div>
     </div>

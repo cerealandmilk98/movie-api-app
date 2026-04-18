@@ -1,24 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function SearchBar({ onSearch }) {
   const [query, setQuery] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!query) return;
-    onSearch(query);
-  };
+  useEffect(() => {
+    if (query.trim().length < 2) return;
+
+    const timeout = setTimeout(() => {
+      onSearch(query);
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [query]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Search movies..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <button type="submit">Search</button>
-    </form>
+    <input
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
   );
 }
 
