@@ -18,7 +18,7 @@ function AppContent() {
           {/* 🔥 CLICKABLE LOGO HEADER */}
           <Link to="/" className="logo">
             <img
-              src="/src/assets/android-chrome-512x512.png"
+              src="/android-chrome-512x512.png"
               alt="MovieFinder Logo"
               className="logo-img"
             />
