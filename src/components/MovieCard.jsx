@@ -1,14 +1,17 @@
 import { useFavorites } from "../context/FavoritesContext";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import Toast from "./Toast";
 
 function MovieCard({ movie }) {
   const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const [toast, setToast] = useState("");
 
   const fav = isFavorite(movie.imdbID);
 
   return (
-    <div className="card">
-      <Link to={`/movie/${movie.imdbID}`}>
+    <Link to={`/movie/${movie.imdbID}`} className="card-link">
+      <div className="card">
         <img
           src={
             movie.Poster !== "N/A"
@@ -17,21 +20,32 @@ function MovieCard({ movie }) {
           }
           alt={movie.Title}
         />
-      </Link>
 
-      <div className="card-content">
-        <h3>{movie.Title}</h3>
-        <p>{movie.Year}</p>
+        <div className="card-content">
+          <h3>{movie.Title}</h3>
+          <p>{movie.Year}</p>
 
-        <button
-          onClick={() =>
-            fav ? removeFavorite(movie.imdbID) : addFavorite(movie)
-          }
-        >
-          {fav ? "Remove ❤️" : "Add ❤️"}
-        </button>
+          <button
+            onClick={(e) => {
+              e.preventDefault(); // 🔥 prevents navigation
+              e.stopPropagation(); // 🔥 extra safety
+
+              if (fav) {
+                removeFavorite(movie.imdbID);
+                setToast("Removed from favorites 💔");
+              } else {
+                addFavorite(movie);
+                setToast("Added to favorites ❤️");
+              }
+            }}
+          >
+            {fav ? "Remove ❤️" : "Add ❤️"}
+          </button>
+
+          {toast && <Toast message={toast} onClose={() => setToast("")} />}
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

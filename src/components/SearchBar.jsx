@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-function SearchBar({ onSearch }) {
-  const [query, setQuery] = useState("");
+function SearchBar({ onSearch, initialQuery = "" }) {
+  const [query, setQuery] = useState(initialQuery);
 
   useEffect(() => {
     if (query.trim().length < 2) return;
@@ -11,7 +11,7 @@ function SearchBar({ onSearch }) {
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, [query]);
+  }, [query, onSearch]);
 
   return (
     <input
